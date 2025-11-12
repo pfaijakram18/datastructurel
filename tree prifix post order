@@ -19,16 +19,15 @@ public:
     Node* buildTreeFromPrefix(string prefix) {
         stack<Node*> st;
 
-       
+        // Traverse the prefix string from right to left
         for (int i = prefix.size() - 1; i >= 0; i--) {
             char ch = prefix[i];
 
-            if (isalnum(ch)) {  
+            if (isalnum(ch)) {  // Operand
                 st.push(new Node(ch));
-            } else {            
+            } else {            // Operator
                 Node* opNode = new Node(ch);
 
-                
                 Node* leftNode = nullptr;
                 Node* rightNode = nullptr;
 
@@ -42,11 +41,9 @@ public:
             }
         }
 
-  
         return st.top();
     }
 
-   
     void inorder(Node* root) {
         if (root) {
             if (!isalnum(root->data)) cout << "(";
@@ -57,7 +54,6 @@ public:
         }
     }
 
-  
     void preorder(Node* root) {
         if (root) {
             cout << root->data;
@@ -66,7 +62,6 @@ public:
         }
     }
 
-   
     void postorder(Node* root) {
         if (root) {
             postorder(root->left);
@@ -75,7 +70,6 @@ public:
         }
     }
 };
-
 
 int main() {
     ExpressionTree et;
@@ -96,5 +90,5 @@ int main() {
     et.postorder(root);
 
     cout << endl;
-    return 0;
+    return 0;
 }
