@@ -39,7 +39,6 @@ public:
         cout << "⚠ Hash table is full! Cannot insert key.\n";
     }
 
-    
     void deleteKey(int key) {
         int index = hashFunction(key);
         int startIndex = index;
@@ -61,7 +60,6 @@ public:
         cout << " Key not found.\n";
     }
 
-   
     void displayTable() {
         cout << "\n--- Hash Table (Linear Probing with Delete) ---\n";
         for (int i = 0; i < SIZE; i++) {
@@ -76,7 +74,6 @@ public:
         }
     }
 };
-
 
 int main() {
     HashTable ht;
@@ -114,5 +111,5 @@ int main() {
         }
     } while (choice != 0);
 
-    return 0;
+    return 0;
 }
