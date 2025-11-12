@@ -15,12 +15,10 @@ public:
         }
     }
 
-    
     int hashFunction(int key) {
         return key % SIZE;
     }
 
-   
     void insertKey(int key) {
         int index = hashFunction(key);
         int startIndex = index;
@@ -32,6 +30,7 @@ public:
                 cout << "Key inserted at index " << index << endl;
                 return;
             }
+            index = (index + 1) % SIZE;  // increment index for linear probing
         } while (index != startIndex);
 
         cout << "Hash table is full! Cannot insert key.\n";
@@ -43,17 +42,17 @@ public:
 
         do {
             if (!occupied[index]) {
-                cout << " Key not found.\n";
+                cout << "Key not found.\n";
                 return;
             }
             if (table[index] == key) {
-                cout << " Key " << key << " found at index " << index << endl;
+                cout << "Key " << key << " found at index " << index << endl;
                 return;
             }
             index = (index + 1) % SIZE;
         } while (index != startIndex);
 
-        cout << " Key not found.\n";
+        cout << "Key not found.\n";
     }
 
     void displayTable() {
@@ -68,7 +67,6 @@ public:
         }
     }
 };
-
 
 int main() {
     HashTable ht;
@@ -106,5 +104,5 @@ int main() {
         }
     } while (choice != 0);
 
-    return 0;
+    return 0;  // fixed: removed hidden non-ASCII characters
 }
