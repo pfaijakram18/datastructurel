@@ -16,7 +16,7 @@ public:
     void insertItem(int key, string value) {
         int index = hashFunction(key);
 
-       
+        // Update value if key already exists
         for (auto &pair : table[index]) {
             if (pair.first == key) {
                 pair.second = value; 
@@ -29,7 +29,6 @@ public:
         cout << "Key inserted successfully.\n";
     }
 
-   
     void deleteItem(int key) {
         int index = hashFunction(key);
         for (auto it = table[index].begin(); it != table[index].end(); ++it) {
@@ -42,7 +41,6 @@ public:
         cout << "Key not found.\n";
     }
 
-   
     void displayTable() {
         cout << "\n--- Hash Table (Chaining) ---\n";
         for (int i = 0; i < SIZE; i++) {
@@ -54,7 +52,6 @@ public:
         }
     }
 };
-
 
 int main() {
     HashTable ht;
@@ -95,5 +92,5 @@ int main() {
         }
     } while (choice != 0);
 
-    return 0;
+    return 0;
 }
