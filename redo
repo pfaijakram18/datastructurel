@@ -1,0 +1,82 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int main() {
+    stack<string> undoStack;  // stores previous states
+    stack<string> redoStack;  // stores undone states
+    string document = "";     // current document content
+    int choice;
+
+    do {
+        cout << "\n===== Real-Time Undo/Redo Text Editor =====\n";
+        cout << "1. Make a Change\n";
+        cout << "2. Undo Last Change\n";
+        cout << "3. Redo Last Change\n";
+        cout << "4. Display Document State\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();  // clear input buffer
+
+        switch (choice) {
+            case 1: {
+                // Make a change
+                undoStack.push(document); // save current state before changing
+                while (!redoStack.empty()) redoStack.pop(); // clear redo history
+                cout << "Enter new text (complete document content): ";
+                getline(cin, document);
+                cout << "Change saved successfully.\n";
+                break;
+            }
+
+            case 2: {
+                // Undo last change
+                if (!undoStack.empty()) {
+                    redoStack.push(document); // save current for redo
+                    document = undoStack.top();
+                    undoStack.pop();
+                    cout << "Undo successful.\n";
+                } else {
+                    cout << "No actions to undo.\n";
+                }
+                break;
+            }
+
+            case 3: {
+                // Redo last undone change
+                if (!redoStack.empty()) {
+                    undoStack.push(document); // save current before redo
+                    document = redoStack.top();
+                    redoStack.pop();
+                    cout << "Redo successful.\n";
+                } else {
+                    cout << "No actions to redo.\n";
+                }
+                break;
+            }
+
+            case 4: {
+                // Display document
+                cout << "\n----- Current Document State -----\n";
+                if (document.empty())
+                    cout << "(Document is empty)\n";
+                else
+                    cout << document << endl;
+                cout << "----------------------------------\n";
+                break;
+            }
+
+            case 5:
+                cout << "Exiting editor...\n";
+                break;
+
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
