@@ -14,6 +14,7 @@ public:
         cityNames.resize(n);
         adjMatrix.resize(n, vector<int>(n, 0));
     }
+
     void addCities() {
         cout << "Enter the names of " << numCities << " cities:\n";
         for (int i = 0; i < numCities; i++) {
@@ -21,6 +22,7 @@ public:
             cin >> cityNames[i];
         }
     }
+
     void addFlight(int src, int dest, int cost) {
         if (src >= 0 && dest >= 0 && src < numCities && dest < numCities) {
             adjMatrix[dest][src] = cost; 
@@ -29,6 +31,7 @@ public:
             cout << "Invalid city index!\n";
         }
     }
+
     void displayMatrix() {
         cout << "\n✈  Adjacency Matrix (Flight Costs):\n     ";
         for (int i = 0; i < numCities; i++)
@@ -43,6 +46,7 @@ public:
             cout << endl;
         }
     }
+
     void DFS(int v, vector<bool> &visited) {
         visited[v] = true;
         for (int i = 0; i < numCities; i++) {
@@ -50,7 +54,6 @@ public:
                 DFS(i, visited);
         }
     }
-
 
     void checkConnected() {
         vector<bool> visited(numCities, false);
@@ -62,10 +65,9 @@ public:
                 return;
             }
         }
-        cout << " The graph is CONNECTED.\n";
+        cout << "The graph is CONNECTED.\n";
     }
 };
-
 
 int main() {
     int n, flights;
@@ -88,5 +90,5 @@ int main() {
     g.displayMatrix();
     g.checkConnected();
 
-    return 0;
+    return 0;
 }
