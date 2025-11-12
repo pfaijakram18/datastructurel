@@ -1,0 +1,164 @@
+#include <iostream>
+using namespace std;
+
+// Structure for each node of the BST
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+// Binary Search Tree class
+class BST {
+public:
+    Node* root;
+
+    BST() {
+        root = nullptr;
+    }
+
+    // Insert a node into the BST
+    Node* insert(Node* node, int value, bool &inserted) {
+        if (node == nullptr) {
+            inserted = true;
+            return new Node(value);
+        }
+
+        if (value < node->data)
+            node->left = insert(node->left, value, inserted);
+        else if (value > node->data)
+            node->right = insert(node->right, value, inserted);
+        else {
+            cout << "⚠ Duplicate value ignored.\n";
+        }
+
+        return node;
+    }
+
+    // Search for a value in the BST (returns true if found)
+    bool search(Node* node, int key) {
+        if (node == nullptr)
+            return false;
+
+        if (node->data == key)
+            return true;
+        else if (key < node->data)
+            return search(node->left, key);
+        else
+            return search(node->right, key);
+    }
+
+    // Find node with minimum value
+    Node* findMin(Node* node) {
+        if (node == nullptr)
+            return nullptr;
+
+        while (node->left != nullptr)
+            node = node->left;
+
+        return node;
+    }
+
+    // Delete a node from the BST
+    Node* deleteNode(Node* node, int key) {
+        if (node == nullptr)
+            return node;
+
+        if (key < node->data)
+            node->left = deleteNode(node->left, key);
+        else if (key > node->data)
+            node->right = deleteNode(node->right, key);
+        else {
+            // Node with only one child or no child
+            if (node->left == nullptr) {
+                Node* temp = node->right;
+                delete node;
+                return temp;
+            } else if (node->right == nullptr) {
+                Node* temp = node->left;
+                delete node;
+                return temp;
+            }
+
+            // Node with two children: Get inorder successor
+            Node* temp = findMin(node->right);
+            node->data = temp->data;
+            node->right = deleteNode(node->right, temp->data);
+        }
+        return node;
+    }
+
+    // Inorder traversal (sorted output)
+    void inorder(Node* node) {
+        if (node != nullptr) {
+            inorder(node->left);
+            cout << node->data << " ";
+            inorder(node->right);
+        }
+    }
+};
+
+// Main program
+int main() {
+    BST bst;
+    int choice, value;
+
+    do {
+        cout << "\n===== BINARY SEARCH TREE MENU =====\n";
+        cout << "1. Insert Node\n";
+        cout << "2. Delete Node\n";
+        cout << "3. Search Node\n";
+        cout << "4. Display (Inorder)\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1: {
+            cout << "Enter value to insert: ";
+            cin >> value;
+            bool inserted = false;
+            bst.root = bst.insert(bst.root, value, inserted);
+            if (inserted)
+                cout << "✅ Node inserted successfully.\n";
+            break;
+        }
+
+        case 2:
+            cout << "Enter value to delete: ";
+            cin >> value;
+            bst.root = bst.deleteNode(bst.root, value);
+            cout << "🗑 Node deleted (if it existed).\n";
+            break;
+
+        case 3:
+            cout << "Enter value to search: ";
+            cin >> value;
+            if (bst.search(bst.root, value))
+                cout << "🔍 Value found in the tree.\n";
+            else
+                cout << "❌ Value not found.\n";
+            break;
+
+        case 4:
+            cout << "Inorder Traversal (sorted): ";
+            bst.inorder(bst.root);
+            cout << endl;
+            break;
+
+        case 0:
+            cout << "👋 Exiting program...\n";
+            break;
+
+        default:
+            cout << "⚠ Invalid choice! Try again.\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
