@@ -1,0 +1,112 @@
+#include <iostream>
+#include <list>
+#include <utility> // for pair
+using namespace std;
+
+class HashTable {
+private:
+    static const int TABLE_SIZE = 10;
+    list<pair<int, string>> table[TABLE_SIZE]; // array of linked lists
+
+    int hashFunction(int key) {
+        return key % TABLE_SIZE; // division method
+    }
+
+public:
+    // Insert key-value pair
+    void insert(int key, string value) {
+        int index = hashFunction(key);
+
+        // Check if key already exists -> update it
+        for (auto &item : table[index]) {
+            if (item.first == key) {
+                item.second = value;
+                cout << "Updated key " << key << " with new value \"" << value << "\".\n";
+                return;
+            }
+        }
+
+        // Otherwise insert new key-value pair
+        table[index].push_back(make_pair(key, value));
+        cout << "Inserted (" << key << ", " << value << ") successfully.\n";
+    }
+
+    // Delete key
+    void remove(int key) {
+        int index = hashFunction(key);
+
+        for (auto it = table[index].begin(); it != table[index].end(); ++it) {
+            if (it->first == key) {
+                table[index].erase(it);
+                cout << "Deleted key " << key << " successfully.\n";
+                return;
+            }
+        }
+
+        cout << "Key " << key << " not found.\n";
+    }
+
+    // Display hash table
+    void display() {
+        cout << "\n===== Hash Table =====\n";
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            cout << i << " -> ";
+            if (table[i].empty()) {
+                cout << "NULL";
+            } else {
+                for (auto &item : table[i]) {
+                    cout << "(" << item.first << ", " << item.second << ") -> ";
+                }
+                cout << "NULL";
+            }
+            cout << endl;
+        }
+        cout << "======================\n";
+    }
+};
+
+int main() {
+    HashTable ht;
+    int choice, key;
+    string value;
+
+    do {
+        cout << "\n===== Hash Table Menu =====\n";
+        cout << "1. Insert(key, value)\n";
+        cout << "2. Delete(key)\n";
+        cout << "3. Display Table\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter key (integer): ";
+                cin >> key;
+                cout << "Enter value (string): ";
+                cin >> value;
+                ht.insert(key, value);
+                break;
+
+            case 2:
+                cout << "Enter key to delete: ";
+                cin >> key;
+                ht.remove(key);
+                break;
+
+            case 3:
+                ht.display();
+                break;
+
+            case 4:
+                cout << "Exiting program...\n";
+                break;
+
+            default:
+                cout << "Invalid choice! Try again.\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
