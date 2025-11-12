@@ -6,7 +6,7 @@ using namespace std;
 int main() {
     stack<string> undoStack;  // stores previous states
     stack<string> redoStack;  // stores undone states
-    string document = "";     // current document content
+    string document = "";      // current document content
     int choice;
 
     do {
@@ -78,5 +78,5 @@ int main() {
 
     } while (choice != 5);
 
-    return 0;
+    return 0;  // fixed: removed invisible characters
 }
